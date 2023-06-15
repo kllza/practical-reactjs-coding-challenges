@@ -1,14 +1,20 @@
 import './index.scss'
 
-const ResultBox = () => {
+const ResultBox = ({
+  charactersCount,
+  wordsCount,
+}: {
+  charactersCount: number
+  wordsCount: number
+}) => {
   const resultBar = [
     {
       title: 'Words',
-      value: 0,
+      value: wordsCount,
     },
     {
       title: 'Characters',
-      value: 0,
+      value: charactersCount,
     },
     {
       title: 'Sentences',
