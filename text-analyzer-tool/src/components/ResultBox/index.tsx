@@ -3,9 +3,15 @@ import './index.scss'
 const ResultBox = ({
   charactersCount,
   wordsCount,
+  sentencesCount,
+  paragraphsCount,
+  pronounsCount,
 }: {
   charactersCount: number
   wordsCount: number
+  sentencesCount: number
+  paragraphsCount: number
+  pronounsCount: number
 }) => {
   const resultBar = [
     {
@@ -18,15 +24,15 @@ const ResultBox = ({
     },
     {
       title: 'Sentences',
-      value: 0,
+      value: sentencesCount,
     },
     {
       title: 'Paragraphs ',
-      value: 0,
+      value: paragraphsCount,
     },
     {
       title: 'Pronouns',
-      value: 0,
+      value: pronounsCount,
     },
   ]
 
