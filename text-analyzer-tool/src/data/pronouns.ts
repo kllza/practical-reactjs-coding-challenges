@@ -30,4 +30,18 @@ export const pronouns = [
   'ourselves',
   'yourselves',
   'themselves',
+
+  //espanol
+  'yo',
+  'tú',
+  'él',
+  'ella',
+  'usted',
+  'nosotros',
+  'nosotras',
+  'vosotros',
+  'vosotras',
+  'ellos',
+  'ellas',
+  'ustedes',
 ]

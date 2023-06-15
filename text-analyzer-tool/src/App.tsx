@@ -14,11 +14,22 @@ const App = () => {
   const [paragraphsCount, setParagraphsCount] = useState(0)
   const [pronounsCount, setPronounsCount] = useState(0)
   const [averageTime, setAverageTime] = useState(0)
+  const [longestWord, setLongestWord] = useState('')
   const WORDSPERMIN = 225
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value
     setCharactersCount(text.length)
+
+    if (text.trim() === '') {
+      setWordCount(0)
+      setSentencesCount(0)
+      setParagraphsCount(0)
+      setPronounsCount(0)
+      setAverageTime(0)
+      setLongestWord('')
+      return
+    }
 
     const words = text.trim().split(/\s+/)
     setWordCount(words.length)
@@ -41,6 +52,25 @@ const App = () => {
 
     const averageReadingTime = Math.ceil(words.length / WORDSPERMIN)
     setAverageTime(averageReadingTime)
+
+    const findLongestWord = (text: string) => {
+      const words = text.split(/\s+/)
+      let longestWord = ''
+      let maxLength = 0
+
+      words.forEach((word: string) => {
+        const cleanedWord = word.replace(/[.,!?]/g, '')
+        if (cleanedWord.length > maxLength) {
+          maxLength = cleanedWord.length
+          longestWord = cleanedWord
+        }
+      })
+
+      return longestWord
+    }
+
+    const longest = findLongestWord(text)
+    setLongestWord(longest)
   }
 
   return (
@@ -56,7 +86,7 @@ const App = () => {
             pronounsCount={pronounsCount}
           />
           <TextArea onChange={handleChange} />
-          <BottomResultBox averageTime={averageTime} />
+          <BottomResultBox averageTime={averageTime} longestWord={longestWord} />
         </div>
       </div>
       <Footer />
