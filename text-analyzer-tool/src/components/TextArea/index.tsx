@@ -9,7 +9,6 @@ const TextArea = ({ onChange }: TextAreaProps) => {
     <textarea
       className="text-area"
       placeholder="Paste your text here..."
-      
       onChange={onChange}
     />
   )

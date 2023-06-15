@@ -13,6 +13,8 @@ const App = () => {
   const [sentencesCount, setSentencesCount] = useState(0)
   const [paragraphsCount, setParagraphsCount] = useState(0)
   const [pronounsCount, setPronounsCount] = useState(0)
+  const [averageTime, setAverageTime] = useState(0)
+  const WORDSPERMIN = 225
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value
@@ -35,8 +37,10 @@ const App = () => {
         return count
       }
     }, 0)
-
     setPronounsCount(newPronounsCount)
+
+    const averageReadingTime = Math.ceil(words.length / WORDSPERMIN)
+    setAverageTime(averageReadingTime)
   }
 
   return (
@@ -52,7 +56,7 @@ const App = () => {
             pronounsCount={pronounsCount}
           />
           <TextArea onChange={handleChange} />
-          <BottomResultBox />
+          <BottomResultBox averageTime={averageTime} />
         </div>
       </div>
       <Footer />
