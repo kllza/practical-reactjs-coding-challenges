@@ -10,7 +10,7 @@ const BottomResultBox = ({
   const bottomResultBar = [
     {
       title: 'Average Reading Time:',
-      value: averageTime,
+      value: averageTime + ' minute',
     },
     {
       title: 'Longest word:',

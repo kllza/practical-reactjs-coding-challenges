@@ -14,7 +14,7 @@ const App = () => {
   const [paragraphsCount, setParagraphsCount] = useState(0)
   const [pronounsCount, setPronounsCount] = useState(0)
   const [averageTime, setAverageTime] = useState(0)
-  const [longestWord, setLongestWord] = useState('')
+  const [longestWord, setLongestWord] = useState('-')
   const WORDSPERMIN = 225
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -27,7 +27,7 @@ const App = () => {
       setParagraphsCount(0)
       setPronounsCount(0)
       setAverageTime(0)
-      setLongestWord('')
+      setLongestWord('-')
       return
     }
 
