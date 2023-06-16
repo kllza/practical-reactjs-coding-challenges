@@ -11,8 +11,31 @@ import './index.css'
 const PasswordGenerator = () => {
   const [passwordLength, setPasswordLength] = useState<number>(8)
 
+  const [checkboxes, setCheckboxes] = useState([
+    { id: 'uppercase', label: 'Uppercase', checked: false },
+    { id: 'lowercase', label: 'Lowercase', checked: false },
+    { id: 'numbers', label: 'Numbers', checked: false },
+    { id: 'special chars', label: 'Special Characters', checked: false },
+  ])
+
   const onChangePasswordLength = (value: number | number[]) => {
     setPasswordLength(value as number)
+  }
+
+  const generator = () => {
+    if (checkboxes[0].checked) {
+      console.log('hola')
+    }
+  }
+
+  const onChangeCheckbox = (changedId: any) => {
+    const updatedCheckboxes = checkboxes.map((checkbox) => {
+      if (checkbox.id === changedId) {
+        return { ...checkbox, checked: !checkbox.checked }
+      }
+      return checkbox
+    })
+    setCheckboxes(updatedCheckboxes)
   }
 
   return (
@@ -29,13 +52,13 @@ const PasswordGenerator = () => {
       <div className="password-input-wrapper">
         <div className="password-field">
           <input type="text" placeholder="your password" value="B9QI4PDBYY" />
-          <Refresh />
+          <Refresh onClick={generator} />
         </div>
         <button className="copy-btn">
           <Copy /> Copy
         </button>
       </div>
-      <span className="fw-500">Weak</span>
+      <span className="fw-500">Weak</span> {/* esto hay que cambiarlo luego */}
       <div className="slider">
         <div>
           <label id="slider-label">Password Length: </label>
@@ -50,15 +73,16 @@ const PasswordGenerator = () => {
         />
       </div>
       <div className="elements">
-        <Checkbox id="uppercase" label="Uppercase" checked={true} name="upper" />
-        <Checkbox id="lowercase" label="Lowercase" checked={false} name="lower" />
-        <Checkbox id="numbers" label="Numbers" checked={false} name="numbers" />
-        <Checkbox
-          id="special chars"
-          label="Special Characters"
-          checked={true}
-          name="specialChars"
-        />
+        {checkboxes.map((checkbox) => (
+          <Checkbox
+            key={checkbox.id}
+            id={checkbox.id}
+            label={checkbox.label}
+            checked={checkbox.checked}
+            name={checkbox.id}
+            onChange={() => onChangeCheckbox(checkbox.id)}
+          />
+        ))}
       </div>
     </div>
   )
