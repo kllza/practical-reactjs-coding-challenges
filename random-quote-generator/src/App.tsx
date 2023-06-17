@@ -4,8 +4,32 @@ import { ReactComponent as Quotation } from "../src/assets/icons/quotation.svg"
 import { ReactComponent as Twitter } from "../src/assets/icons/twitter.svg"
 import { ReactComponent as Whatsapp } from "../src/assets/icons/whatsapp.svg"
 import "./App.css"
+import axios, { AxiosResponse } from "axios"
+import { useState, useEffect } from "react"
 
 function App() {
+  const url = "http://localhost:4000/quotes"
+  const [quote, setQuote] = useState<string>("")
+  const [author, setAuthor] = useState<string>("")
+
+  const fetchData = () => {
+    let randomIndex = Math.floor(Math.random() * 19)
+    axios
+      .get(url)
+      .then((response: AxiosResponse) => {
+        const fetchedQuote = response.data[randomIndex].quote
+        const fetchedAuthor = response.data[randomIndex].author
+        setQuote(fetchedQuote)
+        setAuthor(fetchedAuthor)
+      })
+      .catch((error: any) => {
+        console.error(error)
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
   return (
     <>
       <header>
@@ -16,15 +40,26 @@ function App() {
           <Quotation />
           <div className="quote">
             <p>
-              In the end, we will remember not the words of our enemies, but the
-              silence of our friends.
+              {quote}
+              
             </p>
-            <span>- Martin Luther King Jr.</span>
+            <span>- {author}</span>{" "}
+            
           </div>
           <div className="bottom-navigation">
             <div>
-              <Button className={classnames("rotate cp")} />
-              <Button className="cp" />
+              <Button
+                className={classnames("rotate cp")}
+                onClick={() => {
+                  fetchData()
+                }}
+              />
+              <Button
+                className="cp"
+                onClick={() => {
+                  fetchData()
+                }}
+              />
             </div>
             <div className="share">
               <span>Share At:</span>
