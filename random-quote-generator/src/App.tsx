@@ -42,6 +42,15 @@ function App() {
 
     window.open(url, "_blank")
   }
+
+  const handleShareOnWhatsApp = () => {
+    const baseUrl = "https://api.whatsapp.com/send"
+    const text = `${quote} - ${author}`
+    const url = `${baseUrl}?text=${encodeURIComponent(text)}`
+
+    window.open(url, "_blank")
+  }
+
   return (
     <>
       <header>
@@ -76,7 +85,11 @@ function App() {
                 className="cp"
                 onClick={handleShareOnTwitter}
               />
-              <Whatsapp title="Post this quote on WhatsApp!" className="cp" />
+              <Whatsapp
+                title="Post this quote on WhatsApp!"
+                className="cp"
+                onClick={handleShareOnWhatsApp}
+              />
             </div>
           </div>
         </div>
