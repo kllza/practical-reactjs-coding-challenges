@@ -3,7 +3,7 @@ import './index.scss'
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="container">
+      {/* <div className="container">
         <div className="footer-elements">
           <p>Build by Abdul Basit</p>
           <ul className="other-pages">
@@ -11,7 +11,7 @@ const Footer = () => {
             <li>Contact Us</li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </footer>
   )
 }

@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className="container">
         <div className="nav-elements">
           <span className="app-title">Text Analyser</span>
-          <ul className="social-links">
+          {/* <ul className="social-links">
             <li>
               <a href="https://codewithbasit.netlify.app/" target="_blank" rel="noreferrer">
                 <Website />
@@ -29,7 +29,7 @@ const Navbar = () => {
                 <Linkedin />
               </a>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </nav>

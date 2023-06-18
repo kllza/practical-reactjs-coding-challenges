@@ -89,7 +89,7 @@ const App = () => {
           <BottomResultBox averageTime={averageTime} longestWord={longestWord} />
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
