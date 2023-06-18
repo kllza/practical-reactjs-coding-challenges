@@ -1,7 +1,6 @@
 import { useState, ChangeEvent } from 'react'
 import './App.scss'
 import BottomResultBox from './components/BottomResultBox'
-import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import ResultBox from './components/ResultBox'
 import TextArea from './components/TextArea'
@@ -89,7 +88,6 @@ const App = () => {
           <BottomResultBox averageTime={averageTime} longestWord={longestWord} />
         </div>
       </div>
-      {/* <Footer /> */}
     </>
   )
 }
