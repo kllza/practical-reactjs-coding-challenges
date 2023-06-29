@@ -4,8 +4,29 @@ import { ReactComponent as EditIcon } from "../../assets/icons/edit.svg"
 import CircularProgressBar from "../CircularProgressBar"
 import "./style.scss"
 
-const TaskCard = ({ task }: any) => {
+interface Task {
+  id: string
+  title: string
+  priority: string
+  status: string
+  progress: number
+}
+interface TaskCardProps {
+  task: Task
+  onEditTask: (taskId: string) => void
+  onDeleteTask: (taskId: string) => void
+}
+
+const TaskCard: React.FC<TaskCardProps> = ({ task, onEditTask, onDeleteTask }) => {
   const { id, title, priority, status, progress } = task
+
+  const handleEditClick = () => {
+    onEditTask(id)
+  }
+
+  const handleDeleteClick = () => {
+    onDeleteTask(id)
+  }
 
   return (
     <div className="task-card">
@@ -24,8 +45,8 @@ const TaskCard = ({ task }: any) => {
         <CircularProgressBar strokeWidth={2} sqSize={24} percentage={progress} />
       </div>
       <div className="actions">
-        <EditIcon className="mr-20 cp" />
-        <DeleteIcon className="cp" />
+        <EditIcon className="mr-20 cp" onClick={handleEditClick} />
+        <DeleteIcon className="cp" onClick={handleDeleteClick} />
       </div>
     </div>
   )

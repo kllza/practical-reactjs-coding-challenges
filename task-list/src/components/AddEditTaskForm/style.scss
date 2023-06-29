@@ -19,6 +19,10 @@
   }
 }
 
+.priority-buttons li.selected {
+  border-color: blue; // Color del borde para el botón seleccionado
+}
+
 .priority-buttons {
   display: flex;
   gap: 13px;
@@ -40,7 +44,8 @@
   }
   .high {
     border: 1px solid $error-color;
-    color: $error-color;
+    color: transparent;
+    background-color: transparent;
     &-selected {
       background-color: $error-color;
       color: $white;
