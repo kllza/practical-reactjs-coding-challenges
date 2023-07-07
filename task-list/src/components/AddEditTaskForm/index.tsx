@@ -1,60 +1,71 @@
-import classNames from "classnames"
-import { ReactComponent as Close } from "../../assets/icons/close.svg"
-import Button from "../Button"
-import Input from "../Input"
-import Modal from "../Modal"
-import "./style.scss"
-import { useState, ChangeEvent, FormEvent } from "react"
+import classNames from "classnames";
+import { ReactComponent as Close } from "../../assets/icons/close.svg";
+import Button from "../Button";
+import Input from "../Input";
+import Modal from "../Modal";
+import "./style.scss";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 
 interface Task {
-  id: string
-  title: string
-  priority: string
-  status: string
-  progress: number
+  id: string;
+  title: string;
+  priority: string;
+  status: string;
+  progress: number;
 }
 
 interface AddEditTaskFormProps {
-  modal: boolean
-  toggleModal: () => void
-  onAddTask: (task: Task) => void
+  modal: boolean;
+  toggleModal: () => void;
+  onAddTask: (task: Task) => void;
+  task: Task | null;
 }
 
-const AddEditTaskForm: React.FC<AddEditTaskFormProps> = ({ modal, toggleModal, onAddTask }) => {
-  const [inputValue, setInputValue] = useState("")
-  const [selectedPriority, setSelectedPriority] = useState("")
+const AddEditTaskForm: React.FC<AddEditTaskFormProps> = ({ modal, toggleModal, onAddTask, task }) => {
+  const [taskTitle, setTaskTitle] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [selectedPriority, setSelectedPriority] = useState("");
+
+  useEffect(() => {
+    if (task) {
+      setTaskTitle(task.title);
+      setSelectedPriority(task.priority);
+    } else {
+      setTaskTitle("");
+      setSelectedPriority("");
+    }
+  }, [task]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value)
-  }
+    setTaskTitle(event.target.value);
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
     const newTask: Task = {
-      id: "", // Genera un ID único para la tarea si es necesario
-      title: inputValue,
+      id: task ? task.id : "",
+      title: taskTitle,
       priority: selectedPriority,
       status: "To Do",
       progress: 0,
-    }
-    onAddTask(newTask)
-    setInputValue("")
-    setSelectedPriority("")
-  }
+    };
+    onAddTask(newTask);
+    setInputValue("");
+    setSelectedPriority("");
+  };
 
   const handlePrioritySelection = (priority: string) => {
-    setSelectedPriority(priority)
-    console.log(priority)
-  }
+    setSelectedPriority(priority);
+  };
 
   return (
-    <div>
+    <>
       {modal && (
         <Modal>
           <form onSubmit={handleSubmit}>
             <div className="add-edit-modal">
               <div className="flx-between">
-                <span className="modal-title">Add Task</span>
+                <span className="modal-title">{task ? "Edit Task" : "Add Task"}</span>
                 <Close className="cp" onClick={toggleModal} />
               </div>
               <Input
@@ -62,7 +73,7 @@ const AddEditTaskForm: React.FC<AddEditTaskFormProps> = ({ modal, toggleModal, o
                 placeholder="Type your task here..."
                 onChange={handleChange}
                 name="title"
-                value={inputValue}
+                value={taskTitle}
               />
               <div className="modal-priority">
                 <span>Priority</span>
@@ -81,14 +92,14 @@ const AddEditTaskForm: React.FC<AddEditTaskFormProps> = ({ modal, toggleModal, o
                 </ul>
               </div>
               <div className="flx-right mt-50">
-                <Button title="Add" type="submit" />
+                <Button title="Save" type="submit" />
               </div>
             </div>
           </form>
         </Modal>
       )}
-    </div>
-  )
-}
+    </>
+  );
+};
 
-export default AddEditTaskForm
+export default AddEditTaskForm;

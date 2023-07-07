@@ -17,9 +17,32 @@ interface Task {
 
 const App = () => {
   const [showAddEditModal, setShowAddEditModal] = useState(false)
-  const showDeleteModal = false
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedTaskForEdit, setSelectedTaskForEdit] = useState<Task | null>(null)
 
-  const handleAddEditModalToggle = () => {
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+
+  const handleDeleteTask = () => {
+    if (selectedTask) {
+      const updatedTasks = tasks.filter((task) => task.id !== selectedTask.id)
+      setTasks(updatedTasks)
+      setSelectedTask(null)
+      setShowDeleteModal(false)
+    }
+  }
+
+  const handleCancelDelete = () => {
+    setSelectedTask(null)
+    setShowDeleteModal(false)
+  }
+
+  const handleDeleteModalToggle = (task: Task) => {
+    setSelectedTask(task)
+    setShowDeleteModal(true)
+  }
+
+  const handleAddEditModalToggle = (task: Task | null) => {
+    setSelectedTaskForEdit(task)
     setShowAddEditModal(!showAddEditModal)
   }
 
@@ -30,9 +53,15 @@ const App = () => {
   }, [])
 
   const handleAddTask = (newTask: Task) => {
-    const taskId = (Math.random() * 10000).toString()
-    const updatedTasks = [{ ...newTask, id: taskId }, ...tasks]
-    setTasks(updatedTasks)
+    if (selectedTaskForEdit) {
+      const updatedTasks = tasks.map((task) => (task.id === selectedTaskForEdit.id ? { ...task, ...newTask } : task))
+      setTasks(updatedTasks)
+      setSelectedTaskForEdit(null)
+    } else {
+      const taskId = (Math.random() * 10000).toString()
+      const updatedTasks = [{ ...newTask, id: taskId }, ...tasks]
+      setTasks(updatedTasks)
+    }
   }
 
   return (
@@ -40,27 +69,28 @@ const App = () => {
       <div className="page-wrapper">
         <div className="top-title">
           <h2>Task List</h2>
-          <Button title="Add Task" icon={<Add />} onClick={handleAddEditModalToggle} />
+          <Button title="Add Task" icon={<Add />} onClick={() => handleAddEditModalToggle(null)} />
         </div>
         <div className="task-container">
           {tasks.map((task) => (
             <TaskCard
               key={task.id}
               task={task}
-              onEditTask={function (taskId: string): void {
-                throw new Error("Function not implemented.")
-              }}
-              onDeleteTask={function (taskId: string): void {
-                throw new Error("Function not implemented.")
-              }}
+              onEditTask={() => handleAddEditModalToggle(task)}
+              onDeleteTask={() => handleDeleteModalToggle(task)}
             />
           ))}
         </div>
       </div>
       {showAddEditModal && (
-        <AddEditTaskForm modal={showAddEditModal} toggleModal={handleAddEditModalToggle} onAddTask={handleAddTask} />
+        <AddEditTaskForm
+          modal={showAddEditModal}
+          toggleModal={() => handleAddEditModalToggle(null)}
+          onAddTask={handleAddTask}
+          task={selectedTaskForEdit}
+        />
       )}
-      {showDeleteModal && <DeleteModal />}
+      {showDeleteModal && <DeleteModal task={selectedTask} onDelete={handleDeleteTask} onCancel={handleCancelDelete} />}
     </div>
   )
 }

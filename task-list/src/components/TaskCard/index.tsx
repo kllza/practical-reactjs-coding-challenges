@@ -26,7 +26,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, onEditTask, onDeleteTask }) =
   };
 
   const handleDeleteClick = () => {
-    onDeleteTask(id);
+    onDeleteTask(task.id);
   };
 
   const [currentStatus, setCurrentStatus] = useState("To Do");
